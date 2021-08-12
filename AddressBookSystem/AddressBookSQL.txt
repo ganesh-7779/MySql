@@ -1,0 +1,289 @@
+Enter password: ***********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.26 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+
+*******************************************************************
+UC1 : Ability to create a Address Book Service DB
+*******************************************************************
+
+mysql> CREATE DATABASE address_book_System;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE address_book_System;
+Database changed
+mysql> SELECT DATABASE();
++---------------------+
+| DATABASE()          |
++---------------------+
+| address_book_system |
++---------------------+
+1 row in set (0.00 sec)
+
+************************************************************************
+UC2 : Ability to create a Address Book Table with first and last names, 
+     address, city,state, zip, phone number and email as its attributes
+************************************************************************
+
+mysql> CREATE TABLE Persons (    PersonID int,    LastName varchar(255), 
+        FirstName varchar(255), Address varchar(255), City varchar(255),
+        PhoneNumber BIGINT(13),  email varchar(255), zip int(10));
+Query OK, 0 rows affected, 2 warnings (0.13 sec)
+
+mysql> DESCRIBE Persons;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| PersonID    | int          | YES  |     | NULL    |       |
+| LastName    | varchar(255) | YES  |     | NULL    |       |
+| FirstName   | varchar(255) | YES  |     | NULL    |       |
+| Address     | varchar(255) | YES  |     | NULL    |       |
+| City        | varchar(255) | YES  |     | NULL    |       |
+| PhoneNumber | bigint       | YES  |     | NULL    |       |
+| email       | varchar(255) | YES  |     | NULL    |       |
+| zip         | int          | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+*************************************************************************
+UC3 : Ability to insert new Contacts to Address Book
+*************************************************************************
+
+mysql> INSERT INTO Persons ( PersonID, LastName, FirstName, Address, City, 
+PhoneNumber, email, zip) VALUES (1, 'Gavhad', 'Ganesh', 'Badnapur', 'Jalna',
+7775827779, 'ganeshgavhad9', 431202),(2, 'Khurana', 'Ayushman', 'Bandra', 'Mumbai',
+ 9856244512, 'ayushmankhuran', 410001);
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Persons;
++----------+----------+-----------+----------+--------+-------------+----------------+--------+
+| PersonID | LastName | FirstName | Address  | City   | PhoneNumber | email          | zip    |
++----------+----------+-----------+----------+--------+-------------+----------------+--------+
+|        1 | Gavhad   | Ganesh    | Badnapur | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Ayushman  | Bandra   | Mumbai |  9856244512 | ayushmankhuran | 410001 |
++----------+----------+-----------+----------+--------+-------------+----------------+--------+
+2 rows in set (0.01 sec)
+
+/*********************************************************************************************
+UC4 : Ability to edit existing contact person
+*********************************************************************************************/
+
+mysql> update Persons set Address = 'Aurangabad' WHERE Address = 'Badnapur';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM Persons;
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+| PersonID | LastName | FirstName | Address    | City   | PhoneNumber | email          | zip    |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+|        1 | Gavhad   | Ganesh    | Aurangabad | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Ayushman  | Bandra     | Mumbai |  9856244512 | ayushmankhuran | 410001 |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+2 rows in set (0.04 sec)
+
+
+/*********************************************************************************************
+UC5 : Ability to delete a person's using person name
+*********************************************************************************************/
+
+mysql> DELETE FROM Persons WHERE FirstName = 'Ayushman';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Persons;
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+| PersonID | LastName | FirstName | Address    | City  | PhoneNumber | email         | zip    |
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+|        1 | Gavhad   | Ganesh    | Aurangabad | Jalna |  7775827779 | ganeshgavhad9 | 431202 |
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+1 row in set (0.01 sec)
+
+/*********************************************************************************************
+UC6 : Ability to Retrieve Person belonging to a City or State from the Address Book
+*********************************************************************************************/
+
+mysql> SELECT * FROM Persons WHERE City = 'Jalna';
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+| PersonID | LastName | FirstName | Address    | City  | PhoneNumber | email         | zip    |
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+|        1 | Gavhad   | Ganesh    | Aurangabad | Jalna |  7775827779 | ganeshgavhad9 | 431202 |
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO Persons ( PersonID, LastName, FirstName, Address, City, PhoneNumber, email, zip)
+ VALUES (1, 'Gavhad', 'Ganesh', 'Badnapur', 'Jalna',7775827779, 'ganeshgavhad9', 431202),(2, 'Khurana',
+ 'Ayushman', 'Bandra', 'Mumbai', 9856244512, 'ayushmankhuran', 410001);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+/*********************************************************************************************
+UC7 : Ability to understand the size of address book by City and State
+*********************************************************************************************/
+
+mysql> SELECT COUNT(City) FROM Persons;
++-------------+
+| COUNT(City) |
++-------------+
+|           3 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> INSERT INTO Persons ( PersonID, LastName, FirstName, Address, City, PhoneNumber, email, zip) 
+VALUES (1, 'Pawar', 'Vishal', 'Badnapur', 'Jalna',7775827779, 'ganeshgavhad9', 431202),(2, 'Khurana',
+ 'Karan', 'Bandra', 'Mumbai', 9856244512, 'Karankhuran', 410001);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Persons;
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+| PersonID | LastName | FirstName | Address    | City   | PhoneNumber | email          | zip    |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+|        1 | Gavhad   | Ganesh    | Aurangabad | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        1 | Gavhad   | Ganesh    | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Ayushman  | Bandra     | Mumbai |  9856244512 | ayushmankhuran | 410001 |
+|        1 | Pawar    | Vishal    | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Karan     | Bandra     | Mumbai |  9856244512 | Karankhuran    | 410001 |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update Persons set FirstName = 'Samarth' WHERE LastName = 'Pawar';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM Persons;
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+| PersonID | LastName | FirstName | Address    | City   | PhoneNumber | email          | zip    |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+|        1 | Gavhad   | Ganesh    | Aurangabad | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        1 | Gavhad   | Vivek     | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Ayushman  | Bandra     | Mumbai |  9856244512 | ayushmankhuran | 410001 |
+|        1 | Pawar    | Samarth   | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Karan     | Bandra     | Mumbai |  9856244512 | Karankhuran    | 410001 |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+5 rows in set (0.00 sec)
+
+/**************************************************************************************************
+UC8 : Ability to retrieve entries sorted alphabetically by Person’s name for a given city
+**************************************************************************************************/
+
+mysql> SELECT * FROM Persons ORDER BY FirstName;
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+| PersonID | LastName | FirstName | Address    | City   | PhoneNumber | email          | zip    |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+|        2 | Khurana  | Ayushman  | Bandra     | Mumbai |  9856244512 | ayushmankhuran | 410001 |
+|        1 | Gavhad   | Ganesh    | Aurangabad | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Karan     | Bandra     | Mumbai |  9856244512 | Karankhuran    | 410001 |
+|        1 | Pawar    | Samarth   | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        1 | Gavhad   | Vivek     | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Persons WHERE City = 'Jalna';
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+| PersonID | LastName | FirstName | Address    | City  | PhoneNumber | email         | zip    |
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+|        1 | Gavhad   | Ganesh    | Aurangabad | Jalna |  7775827779 | ganeshgavhad9 | 431202 |
+|        1 | Gavhad   | Vivek     | Badnapur   | Jalna |  7775827779 | ganeshgavhad9 | 431202 |
+|        1 | Pawar    | Samarth   | Badnapur   | Jalna |  7775827779 | ganeshgavhad9 | 431202 |
++----------+----------+-----------+------------+-------+-------------+---------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Persons;
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+| PersonID | LastName | FirstName | Address    | City   | PhoneNumber | email          | zip    |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+|        1 | Gavhad   | Ganesh    | Aurangabad | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        1 | Gavhad   | Vivek     | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Ayushman  | Bandra     | Mumbai |  9856244512 | ayushmankhuran | 410001 |
+|        1 | Pawar    | Samarth   | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Karan     | Bandra     | Mumbai |  9856244512 | Karankhuran    | 410001 |
++----------+----------+-----------+------------+--------+-------------+----------------+--------+
+5 rows in set (0.00 sec)
+
+**************************************************************************************************
+UC9 : Ability to identify each Address Book with name and Type.
+**************************************************************************************************
+
+mysql> ALTER TABLE Persons ADD Type varchar(150) AFTER FirstName;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Persons;
++----------+----------+-----------+------+------------+--------+-------------+----------------+--------+
+| PersonID | LastName | FirstName | Type | Address    | City   | PhoneNumber | email          | zip    |
++----------+----------+-----------+------+------------+--------+-------------+----------------+--------+
+|        1 | Gavhad   | Ganesh    | NULL | Aurangabad | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        1 | Gavhad   | Vivek     | NULL | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Ayushman  | NULL | Bandra     | Mumbai |  9856244512 | ayushmankhuran | 410001 |
+|        1 | Pawar    | Samarth   | NULL | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Karan     | NULL | Bandra     | Mumbai |  9856244512 | Karankhuran    | 410001 |
++----------+----------+-----------+------+------------+--------+-------------+----------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update Persons set Type = 'Family' WHERE FirstName = 'Ganesh';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Persons set Type = 'Family' WHERE FirstName = 'Karan';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Persons set Type = 'Friend' WHERE FirstName = 'Samarth';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Persons set Type = 'Profession' WHERE FirstName = 'Ayushman';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Persons set Type = 'Friend' WHERE FirstName = 'Vivek';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM Persons;
++----------+----------+-----------+------------+------------+--------+-------------+----------------+--------+
+| PersonID | LastName | FirstName | Type       | Address    | City   | PhoneNumber | email          | zip    |
++----------+----------+-----------+------------+------------+--------+-------------+----------------+--------+
+|        1 | Gavhad   | Ganesh    | Family     | Aurangabad | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        1 | Gavhad   | Vivek     | Friend     | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Ayushman  | Profession | Bandra     | Mumbai |  9856244512 | ayushmankhuran | 410001 |
+|        1 | Pawar    | Samarth   | Friend     | Badnapur   | Jalna  |  7775827779 | ganeshgavhad9  | 431202 |
+|        2 | Khurana  | Karan     | Family     | Bandra     | Mumbai |  9856244512 | Karankhuran    | 410001 |
++----------+----------+-----------+------------+------------+--------+-------------+----------------+--------+
+5 rows in set (0.00 sec)
+
+**************************************************************************************************************
+UC10 : Ability to get number of contact persons i.e. count by type
+**************************************************************************************************************
+
+mysql> SELECT Type, COUNT(FirstName) FROM Persons GROUP BY Type;
++------------+------------------+
+| Type       | COUNT(FirstName) |
++------------+------------------+
+| Family     |                2 |
+| Friend     |                2 |
+| Profession |                1 |
++------------+------------------+
+3 rows in set (0.00 sec)
+
+mysql>
